@@ -1,6 +1,6 @@
 package org.rafalk342.paintgraph.gui.chart;
 
-import static org.rafalk342.paintgraph.gui.chart.ChartConstants.TABTITLE;
+import static org.rafalk342.paintgraph.gui.chart.ChartConstants.TAB_NAME;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +60,7 @@ public class ChartView extends BorderPane {
 		log.info("Initializing [{}]", getClass().getSimpleName());
 		this.model = model;
 		Platform.runLater(() -> {
-			setUserData(TABTITLE);
+			setUserData(TAB_NAME);
 			initFieldData();
 			layoutForm();
 			bindFields();

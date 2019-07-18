@@ -1,4 +1,4 @@
-package org.rafalk342.paintgraph.gui.form.programmatic;
+package org.rafalk342.paintgraph.gui.form;
 
 import javafx.stage.Screen;
 

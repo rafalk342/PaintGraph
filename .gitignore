@@ -58,11 +58,6 @@ buildNumber.properties
 # Exclude maven wrapper
 !/.mvn/wrapper/maven-wrapper.jar
 
-# eclipse
-.classpath
-.project
-.settings*
-
 # intelliJ
 .idea*
 

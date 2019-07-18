@@ -1,4 +1,4 @@
-package org.rafalk342.paintgraph.gui.form.programmatic;
+package org.rafalk342.paintgraph.gui.form;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +20,7 @@ public class FormController {
 	final FormView view;
 
 	public FormController(FormModel model, FormView view) {
+		log.info("Initializing [{}], {}", getClass().getSimpleName());
 		this.model = model;
 		this.view = view;
 		attachEvents();

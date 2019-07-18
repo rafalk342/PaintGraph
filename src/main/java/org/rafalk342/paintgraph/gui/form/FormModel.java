@@ -1,4 +1,4 @@
-package org.rafalk342.paintgraph.gui.form.programmatic;
+package org.rafalk342.paintgraph.gui.form;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

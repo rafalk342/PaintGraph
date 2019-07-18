@@ -1,4 +1,4 @@
-package org.rafalk342.paintgraph.gui.form.programmatic;
+package org.rafalk342.paintgraph.gui.form;
 
 import org.controlsfx.glyphfont.FontAwesome.Glyph;
 import org.rafalk342.paintgraph.gui.utils.GlyphFactory;
@@ -46,7 +46,7 @@ public class FormView extends BorderPane {
 	String dateFormat;
 
 	public FormView(FormModel model) {
-		log.debug("Initialized [{}]", getClass().getSimpleName());
+		log.info("Initializing [{}], {}", getClass().getSimpleName());
 		this.model = model;
 		Platform.runLater(() -> {
 			setUserData(FormConstants.TAB_NAME);
