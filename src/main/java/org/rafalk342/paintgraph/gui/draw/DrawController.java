@@ -5,7 +5,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import org.rafalk342.paintgraph.gui.chart.ChartController;
 import org.slf4j.Logger;
@@ -19,7 +18,7 @@ public class DrawController {
     private final DrawModel model;
     private final DrawView view;
 
-    private Circle selected;
+    private Vertex selected;
 
     public DrawController(DrawModel model, DrawView view) {
         log.info("Initializing [{}]", getClass().getSimpleName());
@@ -42,7 +41,7 @@ public class DrawController {
     }
 
     private void createCircle(double x, double y) {
-        Circle vertex = new Circle();
+        Vertex vertex = new Vertex();
         ContextMenu contextMenu = new ContextMenu();
 
         vertex.setCenterX(x);
@@ -51,8 +50,10 @@ public class DrawController {
         vertex.setFill(Color.BLACK);
         vertex.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                if (selected != null) {
-                    addEdge(selected, vertex);
+                if (selected != null && selected != vertex) {
+                    addEdgeViewModel(selected, vertex);
+                } else {
+                    contextMenu.show(vertex, Side.RIGHT, 0, 0);
                 }
             } else {
                 if (selected == null || selected == vertex)
@@ -73,19 +74,32 @@ public class DrawController {
             selected = null;
         });
         MenuItem remove = new MenuItem("Remove");
-        remove.setOnAction(event -> view.pane.getChildren().remove(vertex));
+        remove.setOnAction(event -> {
+            model.removeVertex(vertex);
+            for (Edge edge : vertex.edges) {
+                view.pane.getChildren().remove(edge.line);
+            }
+
+            view.pane.getChildren().remove(vertex);
+            selected = null;
+        });
         contextMenu.getItems().addAll(addEdges, stopAddingEdges, remove);
 
         view.pane.getChildren().add(vertex);
+
+        model.addVertex(vertex);
     }
 
-    private void addEdge(Circle u, Circle v) {
+    private void addEdgeViewModel(Vertex u, Vertex v) {
         Line line = new Line();
         line.setMouseTransparent(true);
         line.setStartX(u.getCenterX());
         line.setStartY(u.getCenterY());
         line.setEndX(v.getCenterX());
         line.setEndY(v.getCenterY());
+
         view.pane.getChildren().add(line);
+
+        model.addEdgeModel(u, v, line);
     }
 }
