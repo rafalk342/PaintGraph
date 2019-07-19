@@ -64,16 +64,24 @@ public class DrawController {
         });
 
         MenuItem addEdges = new MenuItem("Add edges");
+        MenuItem stopAddingEdges = new MenuItem("Stop adding edges");
+        MenuItem remove = new MenuItem("Remove");
+
         addEdges.setOnAction(event -> {
             vertex.setFill(Color.GREEN);
             selected = vertex;
+            addEdges.setDisable(true);
+            stopAddingEdges.setDisable(false);
         });
-        MenuItem stopAddingEdges = new MenuItem("Stop adding edges");
+
         stopAddingEdges.setOnAction(event -> {
             vertex.setFill(Color.BLACK);
             selected = null;
+            addEdges.setDisable(false);
+            stopAddingEdges.setDisable(true);
         });
-        MenuItem remove = new MenuItem("Remove");
+        stopAddingEdges.setDisable(true);
+
         remove.setOnAction(event -> {
             model.removeVertex(vertex);
             for (Edge edge : vertex.edges) {
