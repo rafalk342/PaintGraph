@@ -1,7 +1,6 @@
 ## Intro
 
-PaintGraph is a desktop application for drawing node-edge like graphs. It's main goal is to
-visualise graphs from programming contests.
+PaintGraph is a desktop application for drawing node-edge like graphs.
 
 ## Run me!
 

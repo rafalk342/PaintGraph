@@ -31,4 +31,12 @@ public class DrawModel {
         }
         graph.remove(u);
     }
+
+    void clearGraph() {
+        graph = new ArrayList<>();
+    }
+
+    Vertex getVertex(int i){
+        return graph.get(i);
+    }
 }

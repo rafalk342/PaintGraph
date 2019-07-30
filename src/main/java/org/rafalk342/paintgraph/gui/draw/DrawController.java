@@ -6,10 +6,17 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
 import org.rafalk342.paintgraph.gui.chart.ChartController;
+import org.rafalk342.paintgraph.gui.utils.Dialogs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.Scanner;
 
 @Component
 public class DrawController {
@@ -18,12 +25,15 @@ public class DrawController {
     private final DrawModel model;
     private final DrawView view;
 
+    private Random random = new Random();
+
     private Vertex selected;
 
     public DrawController(DrawModel model, DrawView view) {
         log.info("Initializing [{}]", getClass().getSimpleName());
         this.model = model;
         this.view = view;
+
         attachEvents();
     }
 
@@ -109,5 +119,47 @@ public class DrawController {
         view.pane.getChildren().add(line);
 
         model.addEdgeModel(u, v, line);
+    }
+
+    public DrawView getView() {
+        return view;
+    }
+
+    public void clear() {
+        selected = null;
+        model.clearGraph();
+        view.pane.getChildren().clear();
+    }
+
+    public void openFromFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose your graph.");
+        File file = fileChooser.showOpenDialog(view.getScene().getWindow());
+        if (file != null) {
+            clear();
+            try (Scanner scanner = new Scanner(file)) {
+                int n = scanner.nextInt();
+                int m = scanner.nextInt();
+                for (int i = 0; i < n; i++) {
+                    double x = getRandomValue(0, view.getWidth());
+                    double y = getRandomValue(0, view.getHeight());
+                    createCircle(x, y);
+                }
+                for (int i = 0; i < m; i++) {
+                    int u = scanner.nextInt();
+                    int v = scanner.nextInt();
+                    addEdgeViewModel(model.getVertex(u), model.getVertex(v));
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e){
+                clear();
+                Dialogs.showError("Error in openFromFile() :", "Wrong file format.");
+            }
+        }
+    }
+
+    private double getRandomValue(double min, double max) {
+        return min + (max - min) * random.nextDouble();
     }
 }
