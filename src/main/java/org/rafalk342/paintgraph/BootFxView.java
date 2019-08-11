@@ -40,6 +40,7 @@ public class BootFxView extends BorderPane {
 			itemOpenFile.setOnAction(actionEvent -> drawController.openFromFile());
 
 			MenuItem itemSaveToFile = new MenuItem("Save to file");
+			itemSaveToFile.setOnAction(actionEvent -> drawController.saveToFile());
 			menu1.getItems().addAll(itemNew, itemOpenFile, itemSaveToFile);
 
 			Menu menu2 = new Menu("Options");

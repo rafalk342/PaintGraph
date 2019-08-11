@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -152,7 +152,7 @@ public class DrawController {
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            } catch (Exception e){
+            } catch (Exception e) {
                 clear();
                 Dialogs.showError("Error in openFromFile() :", "Wrong file format.");
             }
@@ -161,5 +161,32 @@ public class DrawController {
 
     private double getRandomValue(double min, double max) {
         return min + (max - min) * random.nextDouble();
+    }
+
+    public void saveToFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save graph to file.");
+        File file = fileChooser.showSaveDialog(view.getScene().getWindow());
+        if (file != null) {
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                PrintWriter printWriter = new PrintWriter(fileWriter);
+
+                ArrayList<Edge> edges = model.getEdges();
+                printWriter.println(model.getGraphSize() + " " + edges.size() / 2);
+
+                ArrayList<Edge> printedEdges = new ArrayList<>();
+                for (Edge edge : edges) {
+                    if (!printedEdges.contains(edge.symmetric)) {
+                        printWriter.println(model.getVertexId(edge.src) + " " + model.getVertexId(edge.dest));
+                        printedEdges.add(edge);
+                    }
+                }
+
+                printWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

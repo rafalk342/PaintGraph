@@ -5,18 +5,19 @@ import javafx.scene.shape.Circle;
 import java.util.ArrayList;
 
 class Vertex extends Circle {
+    public ArrayList<Edge> getEdges() {
+        return edges;
+    }
+
     ArrayList<Edge> edges;
-    int vertexId;
 
     Vertex() {
         this.edges = new ArrayList<>();
     }
 
-    void setVertexId(int vertexId) {
-        this.vertexId = vertexId;
-    }
-
     void addEdge(Edge edge){
         edges.add(edge);
     }
+
+
 }

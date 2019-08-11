@@ -7,17 +7,15 @@ import java.util.ArrayList;
 
 @Component
 public class DrawModel {
-    private int idCounter = 0;
     private ArrayList<Vertex> graph = new ArrayList<>();
 
     void addVertex(Vertex vertex) {
-        vertex.setVertexId(idCounter++);
         graph.add(vertex);
     }
 
     void addEdgeModel(Vertex u, Vertex v, Line line) {
-        Edge forwardEdge = new Edge(v, line);
-        Edge backwardEdge = new Edge(u, line);
+        Edge forwardEdge = new Edge(u, v, line);
+        Edge backwardEdge = new Edge(v, u, line);
         forwardEdge.setSymmetric(backwardEdge);
         backwardEdge.setSymmetric(forwardEdge);
 
@@ -36,7 +34,23 @@ public class DrawModel {
         graph = new ArrayList<>();
     }
 
-    Vertex getVertex(int i){
+    Vertex getVertex(int i) {
         return graph.get(i);
+    }
+
+    int getGraphSize() {
+        return graph.size();
+    }
+
+    ArrayList<Edge> getEdges() {
+        ArrayList<Edge> edges = new ArrayList<>();
+        for (Vertex vertex : graph) {
+            edges.addAll(vertex.getEdges());
+        }
+        return edges;
+    }
+
+    int getVertexId(Vertex vertex){
+        return graph.indexOf(vertex);
     }
 }
